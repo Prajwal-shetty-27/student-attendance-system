@@ -1,0 +1,1091 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Admin Dashboard | Student Attendance System
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f4f7fb;
+
+            color: #1f2937;
+        }
+
+
+        /* =================================================
+           LAYOUT
+        ================================================= */
+
+        .layout {
+
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* =================================================
+           SIDEBAR
+        ================================================= */
+
+        .sidebar {
+
+            width: 250px;
+
+            background: #172554;
+
+            color: white;
+
+            padding: 25px 18px;
+
+            position: fixed;
+
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+
+        .logo {
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            padding: 10px 12px 30px;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            margin-bottom: 20px;
+        }
+
+
+        .logo span {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            color: #bfdbfe;
+
+            margin-top: 5px;
+        }
+
+
+        .nav {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+
+        .nav a {
+
+            display: block;
+
+            padding: 12px 14px;
+
+            color: #dbeafe;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+
+        .nav a:hover {
+
+            background: #1e3a8a;
+
+            color: white;
+        }
+
+
+        .nav a.active {
+
+            background: #2563eb;
+
+            color: white;
+
+            font-weight: 600;
+        }
+
+
+        .logout-link {
+
+            margin-top: 20px;
+
+            border-top:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            padding-top: 20px;
+        }
+
+
+        .logout-link a {
+
+            color: #fecaca;
+        }
+
+
+        /* =================================================
+           MAIN CONTENT
+        ================================================= */
+
+        .main {
+
+            margin-left: 250px;
+
+            width: calc(100% - 250px);
+
+            padding: 30px;
+        }
+
+
+        .topbar {
+
+            background: white;
+
+            padding: 22px 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+
+            margin-bottom: 25px;
+        }
+
+
+        .topbar h1 {
+
+            font-size: 25px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .topbar p {
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =================================================
+           FILTER CARD
+        ================================================= */
+
+        .filter-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+
+            margin-bottom: 25px;
+        }
+
+
+        .filter-card h2 {
+
+            font-size: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .filter-form {
+
+            display: flex;
+
+            align-items: end;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+            min-width: 190px;
+        }
+
+
+        .form-group label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #475569;
+        }
+
+
+        .form-group select,
+        .form-group input {
+
+            padding: 10px 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            background: white;
+        }
+
+
+        .form-group select:focus,
+        .form-group input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(37, 99, 235, 0.1);
+        }
+
+
+        .btn {
+
+            border: none;
+
+            padding: 10px 18px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-block;
+        }
+
+
+        .btn-primary {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        .btn-secondary {
+
+            background: #e2e8f0;
+
+            color: #334155;
+        }
+
+
+        .btn-secondary:hover {
+
+            background: #cbd5e1;
+        }
+
+
+        /* =================================================
+           STAT CARDS
+        ================================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+        }
+
+
+        .stat-title {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            margin-bottom: 10px;
+        }
+
+
+        .stat-value {
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            color: #0f172a;
+        }
+
+
+        .stat-subtitle {
+
+            font-size: 12px;
+
+            color: #94a3b8;
+
+            margin-top: 5px;
+        }
+
+
+        /* =================================================
+           ATTENDANCE TABLE
+        ================================================= */
+
+        .table-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+
+            overflow: hidden;
+        }
+
+
+        .table-header {
+
+            padding: 20px 22px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+
+        .table-header h2 {
+
+            font-size: 18px;
+        }
+
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 750px;
+        }
+
+
+        th {
+
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            padding: 14px 16px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+
+        td {
+
+            padding: 14px 16px;
+
+            font-size: 14px;
+
+            border-bottom:
+                1px solid #f1f5f9;
+        }
+
+
+        tr:hover td {
+
+            background: #f8fafc;
+        }
+
+
+        /* =================================================
+           STATUS
+        ================================================= */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .present {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .absent {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        /* =================================================
+           EMPTY STATE
+        ================================================= */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #64748b;
+        }
+
+
+        .empty h3 {
+
+            color: #334155;
+
+            margin-bottom: 7px;
+        }
+
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                position: static;
+
+                width: 100%;
+
+                min-height: auto;
+            }
+
+
+            .layout {
+
+                display: block;
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+                width: 100%;
+
+                padding: 18px;
+            }
+
+
+            .stats {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .filter-form {
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .form-group {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="layout">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            Student Attendance
+
+            <span>
+                Admin Panel
+            </span>
+
+        </div>
+
+
+        <nav class="nav">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                href="{% url 'admin_dashboard' %}"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+
+            <!-- STUDENTS -->
+
+            <a href="{% url 'students' %}">
+                Students
+            </a>
+
+
+            <!-- CLASSES -->
+
+            <a href="{% url 'classes' %}">
+                Class Management
+            </a>
+
+
+            <!-- TEACHERS -->
+
+            <a href="{% url 'teachers' %}">
+                Teacher Management
+            </a>
+
+
+            <!-- TIMETABLE -->
+
+            <a href="{% url 'timetables' %}">
+                Timetable Management
+            </a>
+
+
+            <!-- SUBJECT-WISE ATTENDANCE -->
+
+            <a href="{% url 'subject_attendance' %}">
+                Subject-wise Attendance
+            </a>
+
+
+            <!-- LOGOUT -->
+
+            <div class="logout-link">
+
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+            </div>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN
+    ================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <h1>
+                Admin Attendance Dashboard
+            </h1>
+
+            <p>
+                Monitor student attendance and manage
+                attendance records.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FILTERS
+        ================================================== -->
+
+        <div class="filter-card">
+
+            <h2>
+                Attendance Filters
+            </h2>
+
+
+            <form
+                method="GET"
+                class="filter-form"
+            >
+
+
+                <!-- CLASS -->
+
+                <div class="form-group">
+
+                    <label for="class_id">
+                        Class
+                    </label>
+
+
+                    <select
+                        name="class_id"
+                        id="class_id"
+                    >
+
+                        <option value="">
+                            All Classes
+                        </option>
+
+
+                        {% for classroom in classrooms %}
+
+                            <option
+                                value="{{ classroom.id }}"
+
+                                {% if selected_class == classroom.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ classroom.name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label for="date">
+                        Date
+                    </label>
+
+
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value="{{ selected_date|default:'' }}"
+                    >
+
+                </div>
+
+
+
+                <!-- APPLY -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Apply Filters
+                </button>
+
+
+                <!-- CLEAR -->
+
+                <a
+                    href="{% url 'admin_dashboard' %}"
+                    class="btn btn-secondary"
+                >
+                    Clear
+                </a>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <div class="stats">
+
+
+            <!-- TOTAL -->
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Total Records
+                </div>
+
+                <div class="stat-value">
+                    {{ total_records }}
+                </div>
+
+                <div class="stat-subtitle">
+                    Attendance records
+                </div>
+
+            </div>
+
+
+
+            <!-- PRESENT -->
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Present
+                </div>
+
+                <div class="stat-value">
+                    {{ present_count }}
+                </div>
+
+                <div class="stat-subtitle">
+                    Students present
+                </div>
+
+            </div>
+
+
+
+            <!-- ABSENT -->
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Absent
+                </div>
+
+                <div class="stat-value">
+                    {{ absent_count }}
+                </div>
+
+                <div class="stat-subtitle">
+                    Students absent
+                </div>
+
+            </div>
+
+
+
+            <!-- PERCENTAGE -->
+
+            <div class="stat-card">
+
+                <div class="stat-title">
+                    Attendance
+                </div>
+
+                <div class="stat-value">
+                    {{ attendance_percentage }}%
+                </div>
+
+                <div class="stat-subtitle">
+                    Overall attendance
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             ATTENDANCE RECORDS
+        ================================================== -->
+
+        <div class="table-card">
+
+
+            <div class="table-header">
+
+                <h2>
+                    Attendance Records
+                </h2>
+
+            </div>
+
+
+            {% if attendance_records %}
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    Roll Number
+                                </th>
+
+                                <th>
+                                    Class
+                                </th>
+
+                                <th>
+                                    Subject
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for record in attendance_records %}
+
+                                <tr>
+
+
+                                    <td>
+                                        {{ record.student.name }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.student.roll_number }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.timetable.classroom.name }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.timetable.subject }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ record.date }}
+                                    </td>
+
+
+                                    <td>
+
+
+                                        {% if record.status == "Present" %}
+
+                                            <span
+                                                class="status present"
+                                            >
+                                                Present
+                                            </span>
+
+                                        {% else %}
+
+                                            <span
+                                                class="status absent"
+                                            >
+                                                Absent
+                                            </span>
+
+                                        {% endif %}
+
+
+                                    </td>
+
+
+                                </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <div class="empty">
+
+                    <h3>
+                        No Attendance Records
+                    </h3>
+
+                    <p>
+                        No attendance records match
+                        the selected filters.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>
+

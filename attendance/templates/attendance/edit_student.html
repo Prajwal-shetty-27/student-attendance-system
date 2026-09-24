@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Edit Student</title>
+
+<style>
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+    }
+
+    .header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 20px;
+    }
+
+    .header h1 {
+        margin: 0;
+    }
+
+    .container {
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .card {
+        width: 450px;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+
+        box-shadow:
+            0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+        margin-top: 0;
+        color: #2c3e50;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+
+        border: 1px solid #ccc;
+        border-radius: 5px;
+
+        font-size: 15px;
+    }
+
+    .error {
+        color: #e74c3c;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .update-btn {
+        background-color: #3498db;
+        color: white;
+
+        border: none;
+        padding: 12px 20px;
+
+        border-radius: 5px;
+        cursor: pointer;
+
+        font-size: 15px;
+    }
+
+    .update-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .cancel-btn {
+        background-color: #95a5a6;
+        color: white;
+
+        text-decoration: none;
+        padding: 12px 20px;
+
+        border-radius: 5px;
+        font-size: 15px;
+    }
+
+    .cancel-btn:hover {
+        background-color: #7f8c8d;
+    }
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+    <h1>
+        Edit Student
+    </h1>
+
+</div>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>
+            Update Student Details
+        </h2>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="{{ form.name.id_for_label }}">
+                    Student Name
+                </label>
+
+                {{ form.name }}
+
+                {% if form.name.errors %}
+
+                    <div class="error">
+                        {{ form.name.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="{{ form.roll_number.id_for_label }}">
+                    Roll Number
+                </label>
+
+                {{ form.roll_number }}
+
+                {% if form.roll_number.errors %}
+
+                    <div class="error">
+                        {{ form.roll_number.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="{{ form.classroom.id_for_label }}">
+                    Class
+                </label>
+
+                {{ form.classroom }}
+
+                {% if form.classroom.errors %}
+
+                    <div class="error">
+                        {{ form.classroom.errors }}
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="update-btn"
+                >
+                    Update Student
+                </button>
+
+
+                <a
+                    href="/students/"
+                    class="cancel-btn"
+                >
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

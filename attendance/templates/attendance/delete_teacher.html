@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Delete Teacher</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f6f8;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+
+        /* CARD */
+
+        .card {
+
+            width: 90%;
+
+            max-width: 500px;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            box-shadow: 0 5px 20px rgba(
+                0,
+                0,
+                0,
+                0.1
+            );
+        }
+
+
+        /* ICON */
+
+        .icon {
+
+            width: 70px;
+
+            height: 70px;
+
+            margin: 0 auto 20px;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 32px;
+        }
+
+
+        h1 {
+
+            margin: 0 0 15px;
+
+            color: #1e293b;
+
+            font-size: 26px;
+        }
+
+
+        p {
+
+            color: #64748b;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        .teacher-name {
+
+            color: #1e293b;
+
+            font-weight: bold;
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+        }
+
+
+        button,
+        .cancel-btn {
+
+            padding: 11px 20px;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+        }
+
+
+        .delete-btn {
+
+            border: none;
+
+            background: #dc2626;
+
+            color: white;
+        }
+
+
+        .delete-btn:hover {
+
+            background: #b91c1c;
+        }
+
+
+        .cancel-btn {
+
+            background: #e2e8f0;
+
+            color: #334155;
+        }
+
+
+        .cancel-btn:hover {
+
+            background: #cbd5e1;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="card">
+
+
+        <div class="icon">
+            ⚠
+        </div>
+
+
+        <h1>
+            Delete Teacher?
+        </h1>
+
+
+        <p>
+
+            Are you sure you want to delete
+
+            <span class="teacher-name">
+                {{ teacher.username }}
+            </span>
+
+            ?
+
+            <br>
+
+            This action cannot be undone.
+
+        </p>
+
+
+        <div class="buttons">
+
+
+            <!-- DELETE -->
+
+            <form
+                method="POST"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="delete-btn"
+                >
+                    Yes, Delete
+                </button>
+
+            </form>
+
+
+            <!-- CANCEL -->
+
+            <a
+                href="/teachers/"
+                class="cancel-btn"
+            >
+                Cancel
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

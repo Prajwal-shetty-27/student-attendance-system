@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Take Attendance | Student Attendance
+    </title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f1f5f9;
+
+            color: #1e293b;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            background: #1e3a8a;
+
+            color: white;
+
+            padding: 22px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .logo {
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+        }
+
+
+        .logo span {
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+
+            font-weight: normal;
+
+            color: #93c5fd;
+
+        }
+
+
+        .teacher-info {
+
+            text-align: right;
+
+        }
+
+
+        .teacher-info p {
+
+            margin-bottom: 4px;
+
+            font-size: 12px;
+
+            color: #bfdbfe;
+
+        }
+
+
+        .teacher-info strong {
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            max-width: 1000px;
+
+            margin: 35px auto;
+
+            padding: 0 25px;
+
+        }
+
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-btn {
+
+            display: inline-block;
+
+            background: white;
+
+            color: #2563eb;
+
+            text-decoration: none;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            border: 1px solid #dbeafe;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 22px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #2563eb;
+
+            color: white;
+
+            border-color: #2563eb;
+
+        }
+
+
+        /* =========================
+           ATTENDANCE HEADER
+        ========================= */
+
+        .attendance-header {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.05);
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .attendance-header h1 {
+
+            font-size: 26px;
+
+            color: #1e293b;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .details {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+        }
+
+
+        .detail {
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 8px;
+
+            padding: 10px 14px;
+
+            font-size: 14px;
+
+            color: #475569;
+
+        }
+
+
+        .detail strong {
+
+            color: #1e293b;
+
+        }
+
+
+        /* =========================
+           WARNING
+        ========================= */
+
+        .warning {
+
+            display: none;
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+
+            padding: 13px 16px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        .warning.show {
+
+            display: block;
+
+        }
+
+
+        /* =========================
+           STUDENTS CARD
+        ========================= */
+
+        .students-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.05);
+
+            overflow: hidden;
+
+        }
+
+
+        .students-header {
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+        }
+
+
+        .students-header h2 {
+
+            font-size: 19px;
+
+            color: #1e293b;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .students-header p {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           STUDENT ROW
+        ========================= */
+
+        .student {
+
+            padding: 18px 22px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom: 1px solid #f1f5f9;
+
+            transition: 0.2s;
+
+        }
+
+
+        .student:hover {
+
+            background: #f8fafc;
+
+        }
+
+
+        .student:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .student-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+
+        }
+
+
+        .student-name {
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: #1e293b;
+
+        }
+
+
+        .roll-number {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           STATUS BUTTONS
+        ========================= */
+
+        .status {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+
+        .status label {
+
+            cursor: pointer;
+
+            padding: 9px 15px;
+
+            border-radius: 7px;
+
+            border: 1px solid #cbd5e1;
+
+            background: white;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .status input {
+
+            display: none;
+
+        }
+
+
+        .status label:hover {
+
+            border-color: #94a3b8;
+
+        }
+
+
+        .status label:has(
+            input[value="Present"]:checked
+        ) {
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            border-color: #86efac;
+
+        }
+
+
+        .status label:has(
+            input[value="Absent"]:checked
+        ) {
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            border-color: #fca5a5;
+
+        }
+
+
+        /* =========================
+           UNMARKED STUDENT
+        ========================= */
+
+        .student.unmarked {
+
+            background: #fff7ed;
+
+            border-left: 4px solid #f97316;
+
+        }
+
+
+        /* =========================
+           SUBMIT AREA
+        ========================= */
+
+        .submit-area {
+
+            padding: 20px 22px;
+
+            background: #f8fafc;
+
+            border-top: 1px solid #e2e8f0;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+        }
+
+
+        .submit-btn {
+
+            padding: 12px 22px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+
+        }
+
+
+        .submit-btn:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            padding: 50px 20px;
+
+            text-align: center;
+
+            color: #64748b;
+
+        }
+
+
+        .empty-state h3 {
+
+            color: #334155;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .empty-state p {
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+
+                padding: 18px 20px;
+
+            }
+
+
+            .teacher-info {
+
+                display: none;
+
+            }
+
+
+            .container {
+
+                margin: 25px auto;
+
+                padding: 0 15px;
+
+            }
+
+
+            .attendance-header {
+
+                padding: 20px;
+
+            }
+
+
+            .attendance-header h1 {
+
+                font-size: 23px;
+
+            }
+
+
+            .student {
+
+                display: block;
+
+                padding: 18px;
+
+            }
+
+
+            .status {
+
+                margin-top: 15px;
+
+                width: 100%;
+
+            }
+
+
+            .status label {
+
+                flex: 1;
+
+                text-align: center;
+
+            }
+
+
+            .submit-area {
+
+                padding: 18px;
+
+            }
+
+
+            .submit-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="header">
+
+
+        <div class="logo">
+
+            Student Attendance
+
+            <span>
+
+                Teacher Panel
+
+            </span>
+
+        </div>
+
+
+        <div class="teacher-info">
+
+            <p>
+
+                Logged in as
+
+            </p>
+
+            <strong>
+
+                {{ request.user.username }}
+
+            </strong>
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="container">
+
+
+        <!-- BACK BUTTON -->
+
+        <a
+            href="{% url 'timetable' timetable.classroom.id %}"
+            class="back-btn"
+        >
+
+            ← Back to Timetable
+
+        </a>
+
+
+
+        <!-- ATTENDANCE DETAILS -->
+
+        <div class="attendance-header">
+
+            <h1>
+
+                Take Attendance
+
+            </h1>
+
+
+            <div class="details">
+
+                <div class="detail">
+
+                    <strong>
+                        Class:
+                    </strong>
+
+                    {{ classroom.name }}
+
+                </div>
+
+
+                <div class="detail">
+
+                    <strong>
+                        Subject:
+                    </strong>
+
+                    {{ timetable.subject }}
+
+                </div>
+
+
+                <div class="detail">
+
+                    <strong>
+                        Day:
+                    </strong>
+
+                    {{ timetable.day }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- WARNING -->
+
+        <div
+            id="warning"
+            class="warning"
+        >
+
+            ⚠️ Please mark attendance for all students before submitting.
+
+        </div>
+
+
+
+        <!-- STUDENTS -->
+
+        <div class="students-card">
+
+
+            <div class="students-header">
+
+                <h2>
+
+                    Students
+
+                </h2>
+
+                <p>
+
+                    Select Present or Absent for each student.
+
+                </p>
+
+            </div>
+
+
+
+            <form
+                method="POST"
+                id="attendanceForm"
+            >
+
+                {% csrf_token %}
+
+
+                {% for student in students %}
+
+
+                    <div
+                        class="student"
+                        data-student-id="{{ student.id }}"
+                    >
+
+
+                        <div class="student-info">
+
+                            <span class="student-name">
+
+                                {{ student.name }}
+
+                            </span>
+
+
+                            <span class="roll-number">
+
+                                Roll Number:
+                                {{ student.roll_number }}
+
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="status">
+
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="student_{{ student.id }}"
+                                    value="Present"
+
+                                    {% if student.current_status == "Present" %}
+
+                                        checked
+
+                                    {% endif %}
+                                >
+
+                                Present
+
+                            </label>
+
+
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="student_{{ student.id }}"
+                                    value="Absent"
+
+                                    {% if student.current_status == "Absent" %}
+
+                                        checked
+
+                                    {% endif %}
+                                >
+
+                                Absent
+
+                            </label>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% empty %}
+
+
+                    <div class="empty-state">
+
+                        <h3>
+
+                            No Students Found
+
+                        </h3>
+
+
+                        <p>
+
+                            There are no students assigned to this class.
+
+                        </p>
+
+                    </div>
+
+
+                {% endfor %}
+
+
+
+                {% if students %}
+
+
+                    <div class="submit-area">
+
+                        <button
+                            type="submit"
+                            class="submit-btn"
+                        >
+
+                            Save Attendance
+
+                        </button>
+
+                    </div>
+
+
+                {% endif %}
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         VALIDATION
+    ========================= -->
+
+    <script>
+
+        const form = document.getElementById(
+            "attendanceForm"
+        );
+
+        const warning = document.getElementById(
+            "warning"
+        );
+
+
+        form.addEventListener(
+            "submit",
+            function(event) {
+
+                const students = document.querySelectorAll(
+                    ".student"
+                );
+
+                let allMarked = true;
+
+
+                students.forEach(
+                    function(student) {
+
+                        const checked = student.querySelector(
+                            'input[type="radio"]:checked'
+                        );
+
+
+                        if (!checked) {
+
+                            allMarked = false;
+
+                            student.classList.add(
+                                "unmarked"
+                            );
+
+                        }
+                        else {
+
+                            student.classList.remove(
+                                "unmarked"
+                            );
+
+                        }
+
+                    }
+                );
+
+
+                if (!allMarked) {
+
+                    event.preventDefault();
+
+                    warning.classList.add(
+                        "show"
+                    );
+
+                    warning.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                }
+                else {
+
+                    warning.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        const radioButtons = document.querySelectorAll(
+            '.student input[type="radio"]'
+        );
+
+
+        radioButtons.forEach(
+            function(radio) {
+
+                radio.addEventListener(
+                    "change",
+                    function() {
+
+                        const student =
+                            this.closest(".student");
+
+
+                        student.classList.remove(
+                            "unmarked"
+                        );
+
+
+                        const students =
+                            document.querySelectorAll(
+                                ".student"
+                            );
+
+
+                        let allMarked = true;
+
+
+                        students.forEach(
+                            function(student) {
+
+                                const checked =
+                                    student.querySelector(
+                                        'input[type="radio"]:checked'
+                                    );
+
+
+                                if (!checked) {
+
+                                    allMarked = false;
+
+                                }
+
+                            }
+                        );
+
+
+                        if (allMarked) {
+
+                            warning.classList.remove(
+                                "show"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

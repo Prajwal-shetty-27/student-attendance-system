@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Student</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        .header {
+            background-color: #1f2937;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .error {
+            margin-top: 6px;
+            padding: 10px;
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .error ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .btn-save {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-cancel {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background-color: #4b5563;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h2>
+            Admin Dashboard
+        </h2>
+
+        <div>
+
+            <a href="/dashboard/">
+                Dashboard
+            </a>
+
+            <a href="/students/">
+                Students
+            </a>
+
+            <a href="/classes/">
+                Classes
+            </a>
+
+            <a href="/teachers/">
+                Teachers
+            </a>
+
+            <a href="/timetables/">
+                Timetable
+            </a>
+
+            <a href="/logout/">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+        <h1>
+            Add Student
+        </h1>
+
+        <!-- NON-FIELD ERRORS -->
+
+        {% if form.non_field_errors %}
+
+            <div class="error">
+
+                {{ form.non_field_errors }}
+
+            </div>
+
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- STUDENT NAME -->
+
+            <div class="form-group">
+
+                <label for="{{ form.name.id_for_label }}">
+                    Student Name
+                </label>
+
+                {{ form.name }}
+
+                {% if form.name.errors %}
+
+                    <div class="error">
+
+                        {{ form.name.errors }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <!-- ROLL NUMBER -->
+
+            <div class="form-group">
+
+                <label for="{{ form.roll_number.id_for_label }}">
+                    Roll Number
+                </label>
+
+                {{ form.roll_number }}
+
+                {% if form.roll_number.errors %}
+
+                    <div class="error">
+
+                        {{ form.roll_number.errors }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <!-- CLASS -->
+
+            <div class="form-group">
+
+                <label for="{{ form.classroom.id_for_label }}">
+                    Class
+                </label>
+
+                {{ form.classroom }}
+
+                {% if form.classroom.errors %}
+
+                    <div class="error">
+
+                        {{ form.classroom.errors }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <!-- BUTTONS -->
+
+            <div class="button-container">
+
+                <a
+                    href="/students/"
+                    class="btn btn-cancel"
+                >
+                    Cancel
+                </a>
+
+                <button
+                    type="submit"
+                    class="btn btn-save"
+                >
+                    Save Student
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

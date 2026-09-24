@@ -1,0 +1,1013 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Class Management</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+
+        /* ================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #172554;
+            color: white;
+
+            padding: 25px 15px;
+        }
+
+
+        .logo {
+            text-align: center;
+
+            font-size: 22px;
+            font-weight: bold;
+
+            margin-bottom: 35px;
+        }
+
+
+        .nav-title {
+            font-size: 12px;
+
+            color: #93c5fd;
+
+            text-transform: uppercase;
+
+            margin: 0 12px 10px;
+        }
+
+
+        .nav-link {
+            display: block;
+
+            padding: 13px 15px;
+
+            margin-bottom: 6px;
+
+            border-radius: 8px;
+
+            color: #dbeafe;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            transition: 0.2s;
+        }
+
+
+        .nav-link:hover {
+            background: #1e3a8a;
+            color: white;
+        }
+
+
+        .nav-link.active {
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+        }
+
+
+        .logout {
+            position: absolute;
+
+            bottom: 25px;
+
+            left: 15px;
+            right: 15px;
+
+            background: #dc2626;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+
+        .logout:hover {
+            background: #b91c1c;
+        }
+
+
+        /* ================================
+           MAIN CONTENT
+        ================================= */
+
+        .main {
+            margin-left: 240px;
+
+            padding: 35px;
+        }
+
+
+        .page-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .page-header h1 {
+            font-size: 28px;
+
+            color: #111827;
+
+            margin-bottom: 6px;
+        }
+
+
+        .page-header p {
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .add-btn {
+            display: inline-block;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* ================================
+           CARD
+        ================================= */
+
+        .card {
+            background: white;
+
+            border-radius: 12px;
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+
+            overflow: hidden;
+        }
+
+
+        .card-header {
+            padding: 20px 25px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .card-header h2 {
+            font-size: 19px;
+
+            color: #111827;
+        }
+
+
+        .card-header p {
+            margin-top: 5px;
+
+            color: #6b7280;
+
+            font-size: 13px;
+        }
+
+
+        /* ================================
+           TABLE
+        ================================= */
+
+        .table-container {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        thead {
+            background: #f8fafc;
+        }
+
+
+        th {
+            text-align: left;
+
+            padding: 15px 20px;
+
+            font-size: 13px;
+
+            color: #475569;
+
+            font-weight: bold;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        td {
+            padding: 16px 20px;
+
+            font-size: 14px;
+
+            border-bottom: 1px solid #eef2f7;
+
+            color: #374151;
+        }
+
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* ================================
+           SERIAL NUMBER
+        ================================= */
+
+        .serial {
+            width: 80px;
+
+            color: #64748b;
+
+            font-weight: bold;
+        }
+
+
+        /* ================================
+           CLASS NAME
+        ================================= */
+
+        .class-name {
+            font-weight: bold;
+
+            color: #111827;
+        }
+
+
+        /* ================================
+           ACTIONS
+        ================================= */
+
+        .actions {
+            display: flex;
+
+            gap: 8px;
+        }
+
+
+        .edit-btn,
+        .delete-btn {
+            border: none;
+
+            padding: 8px 13px;
+
+            border-radius: 6px;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .edit-btn {
+            background: #e0f2fe;
+
+            color: #0369a1;
+        }
+
+
+        .edit-btn:hover {
+            background: #bae6fd;
+        }
+
+
+        .delete-btn {
+            background: #fee2e2;
+
+            color: #dc2626;
+        }
+
+
+        .delete-btn:hover {
+            background: #fecaca;
+        }
+
+
+        /* ================================
+           EMPTY STATE
+        ================================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 60px 20px;
+
+            color: #6b7280;
+        }
+
+
+        .empty-icon {
+            font-size: 42px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .empty h3 {
+            color: #374151;
+
+            margin-bottom: 8px;
+        }
+
+
+        .empty p {
+            font-size: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ================================
+           DELETE MODAL
+        ================================= */
+
+        .modal-overlay {
+            display: none;
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: rgba(15, 23, 42, 0.55);
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 1000;
+        }
+
+
+        .modal {
+            background: white;
+
+            width: 400px;
+
+            max-width: 90%;
+
+            border-radius: 12px;
+
+            padding: 28px;
+
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+
+            text-align: center;
+        }
+
+
+        .modal-icon {
+            width: 55px;
+            height: 55px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .modal h3 {
+            font-size: 20px;
+
+            color: #111827;
+
+            margin-bottom: 10px;
+        }
+
+
+        .modal p {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            margin-bottom: 25px;
+        }
+
+
+        .modal-actions {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 10px;
+        }
+
+
+        .cancel-btn,
+        .confirm-delete-btn {
+            padding: 10px 20px;
+
+            border-radius: 7px;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+
+        .cancel-btn {
+            background: #e5e7eb;
+
+            color: #374151;
+        }
+
+
+        .cancel-btn:hover {
+            background: #d1d5db;
+        }
+
+
+        .confirm-delete-btn {
+            background: #dc2626;
+
+            color: white;
+        }
+
+
+        .confirm-delete-btn:hover {
+            background: #b91c1c;
+        }
+
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+
+            .main {
+                margin-left: 200px;
+
+                padding: 25px;
+            }
+
+
+            .page-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 15px;
+            }
+
+
+            .logo {
+                margin-bottom: 15px;
+            }
+
+
+            .logout {
+                position: static;
+
+                display: block;
+
+                margin-top: 15px;
+            }
+
+
+            .main {
+                margin-left: 0;
+
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            School Management
+        </div>
+
+
+        <div class="nav-title">
+            Management
+        </div>
+
+
+        <a href="{% url 'admin_dashboard' %}"
+           class="nav-link">
+
+            Dashboard
+
+        </a>
+
+
+        <a href="{% url 'students' %}"
+           class="nav-link">
+
+            Students
+
+        </a>
+
+
+        <a href="{% url 'classes' %}"
+           class="nav-link active">
+
+            Class Management
+
+        </a>
+
+
+        <a href="{% url 'teachers' %}"
+           class="nav-link">
+
+            Teacher Management
+
+        </a>
+
+
+        <a href="{% url 'timetables' %}"
+           class="nav-link">
+
+            Timetable Management
+
+        </a>
+        <!-- Subject-wise Attendance -->
+    <a
+        href="{% url 'subject_attendance' %}"
+        class="nav-link"
+    >
+        Subject-wise Attendance
+    </a>
+
+
+
+        <a href="{% url 'logout' %}"
+           class="logout">
+
+            Logout
+
+        </a>
+
+    </aside>
+
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main">
+
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Class Management
+                </h1>
+
+                <p>
+                    Add, edit and manage classes in the system.
+                </p>
+
+            </div>
+
+
+            <a href="{% url 'add_class' %}"
+               class="add-btn">
+
+                + Add Class
+
+            </a>
+
+        </div>
+
+
+
+        <!-- CLASS TABLE -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <h2>
+                    Classes
+                </h2>
+
+                <p>
+                    View and manage all registered classes.
+                </p>
+
+            </div>
+
+
+            {% if classes %}
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    S.No
+                                </th>
+
+                                <th>
+                                    Class Name
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for classroom in classes %}
+
+                                <tr>
+
+                                    <td class="serial">
+
+                                        {{ forloop.counter }}
+
+                                    </td>
+
+
+                                    <td class="class-name">
+
+                                        {{ classroom.name }}
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <a href="{% url 'edit_class' classroom.id %}"
+                                               class="edit-btn">
+
+                                                Edit
+
+                                            </a>
+
+
+                                            <button type="button"
+                                                    class="delete-btn"
+                                                    onclick="openDeleteModal(
+                                                        '{{ classroom.id }}',
+                                                        '{{ classroom.name|escapejs }}'
+                                                    )">
+
+                                                Delete
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        🏫
+                    </div>
+
+                    <h3>
+                        No Classes Found
+                    </h3>
+
+                    <p>
+                        Add your first class to get started.
+                    </p>
+
+
+                    <a href="{% url 'add_class' %}"
+                       class="add-btn">
+
+                        + Add Class
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================================
+         DELETE CONFIRMATION MODAL
+    ================================= -->
+
+    <div class="modal-overlay"
+         id="deleteModal">
+
+
+        <div class="modal">
+
+
+            <div class="modal-icon">
+                !
+            </div>
+
+
+            <h3>
+                Delete Class?
+            </h3>
+
+
+            <p>
+
+                Are you sure you want to delete
+
+                <strong id="className"></strong>?
+
+                <br>
+
+                This action cannot be undone.
+
+            </p>
+
+
+            <div class="modal-actions">
+
+
+                <button type="button"
+                        class="cancel-btn"
+                        onclick="closeDeleteModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button type="button"
+                        class="confirm-delete-btn"
+                        onclick="confirmDelete()">
+
+                    Yes, Delete
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script>
+
+        let deleteClassId = null;
+
+
+        function openDeleteModal(
+            classId,
+            className
+        ) {
+
+            deleteClassId = classId;
+
+            document.getElementById(
+                'className'
+            ).textContent = className;
+
+
+            document.getElementById(
+                'deleteModal'
+            ).style.display = 'flex';
+
+        }
+
+
+        function closeDeleteModal() {
+
+            deleteClassId = null;
+
+            document.getElementById(
+                'deleteModal'
+            ).style.display = 'none';
+
+        }
+
+
+        function confirmDelete() {
+
+            if (deleteClassId) {
+
+                window.location.href =
+                    "{% url 'delete_class' 0 %}"
+                    .replace(
+                        '/0/',
+                        '/' + deleteClassId + '/'
+                    );
+
+            }
+
+        }
+
+
+        /* Close modal when clicking outside */
+
+        document.getElementById(
+            'deleteModal'
+        ).addEventListener(
+            'click',
+            function(event) {
+
+                if (event.target === this) {
+
+                    closeDeleteModal();
+
+                }
+
+            }
+        );
+
+
+        /* Close modal using Escape key */
+
+        document.addEventListener(
+            'keydown',
+            function(event) {
+
+                if (event.key === 'Escape') {
+
+                    closeDeleteModal();
+
+                }
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
+

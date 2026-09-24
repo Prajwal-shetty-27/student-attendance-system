@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher Dashboard | Student Attendance</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f1f5f9;
+
+            min-height: 100vh;
+
+            color: #1e293b;
+
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+
+            top: 0;
+
+            width: 240px;
+
+            height: 100vh;
+
+            background: #1e3a8a;
+
+            color: white;
+
+            padding: 25px 18px;
+
+        }
+
+
+        .logo {
+
+            text-align: center;
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            padding: 10px 8px;
+
+            margin-bottom: 35px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .logo span {
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+
+            font-weight: normal;
+
+            color: #93c5fd;
+
+        }
+
+
+        .sidebar-info {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .sidebar-info p {
+
+            font-size: 12px;
+
+            color: #bfdbfe;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .sidebar-info strong {
+
+            font-size: 15px;
+
+            color: white;
+
+        }
+
+
+        .logout {
+
+            display: block;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            color: white;
+
+            background: #dc2626;
+
+            padding: 11px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-top: 20px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .logout:hover {
+
+            background: #b91c1c;
+
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main {
+
+            margin-left: 240px;
+
+            padding: 35px;
+
+        }
+
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .header h1 {
+
+            font-size: 28px;
+
+            color: #1e293b;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .header p {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           CLASS SECTION
+        ========================= */
+
+        .section-title {
+
+            font-size: 20px;
+
+            margin-bottom: 18px;
+
+            color: #1e293b;
+
+        }
+
+
+        .classes-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fill, minmax(220px, 1fr));
+
+            gap: 20px;
+
+        }
+
+
+        .class-card {
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.05);
+
+            transition: 0.2s;
+
+        }
+
+
+        .class-card:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.10);
+
+            border-color: #2563eb;
+
+        }
+
+
+        .class-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 10px;
+
+            background: #dbeafe;
+
+            color: #1d4ed8;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .class-card h3 {
+
+            font-size: 19px;
+
+            margin-bottom: 7px;
+
+            color: #1e293b;
+
+        }
+
+
+        .class-card p {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .view-button {
+
+            display: inline-block;
+
+            color: #2563eb;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 12px;
+
+            padding: 45px 25px;
+
+            text-align: center;
+
+            color: #64748b;
+
+        }
+
+
+        .empty-state h3 {
+
+            color: #334155;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .empty-state p {
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 18px;
+
+            }
+
+
+            .logo {
+
+                margin-bottom: 15px;
+
+            }
+
+
+            .sidebar-info {
+
+                display: none;
+
+            }
+
+
+            .logout {
+
+                max-width: 200px;
+
+                margin: 10px auto 0;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+                padding: 25px 18px;
+
+            }
+
+
+            .header {
+
+                display: block;
+
+            }
+
+
+            .header h1 {
+
+                font-size: 24px;
+
+            }
+
+
+            .classes-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            Student Attendance
+
+            <span>
+
+                Teacher Panel
+
+            </span>
+
+        </div>
+
+
+        <div class="sidebar-info">
+
+            <p>
+
+                Logged in as
+
+            </p>
+
+            <strong>
+
+                {{ request.user.username }}
+
+            </strong>
+
+        </div>
+
+
+        <a
+            href="{% url 'logout' %}"
+            class="logout"
+        >
+
+            Logout
+
+        </a>
+
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main">
+
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+
+                    Teacher Dashboard
+
+                </h1>
+
+                <p>
+
+                    Select a class to view today's timetable and take attendance.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <h2 class="section-title">
+
+            My Classes
+
+        </h2>
+
+
+
+        {% if classes %}
+
+
+            <div class="classes-grid">
+
+
+                {% for class in classes %}
+
+
+                    <a
+                        href="{% url 'timetable' class.id %}"
+                        class="class-card"
+                    >
+
+
+                        <div class="class-icon">
+
+                            {{ class.name|first|upper }}
+
+                        </div>
+
+
+                        <h3>
+
+                            {{ class.name }}
+
+                        </h3>
+
+
+                        <p>
+
+                            View timetable and attendance
+
+                        </p>
+
+
+                        <span class="view-button">
+
+                            View Class →
+
+                        </span>
+
+
+                    </a>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="empty-state">
+
+                <h3>
+
+                    No Classes Assigned
+
+                </h3>
+
+                <p>
+
+                    You currently don't have any classes assigned to you.
+
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</body>
+
+</html>

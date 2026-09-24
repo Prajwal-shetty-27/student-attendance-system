@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Teacher</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f6f8;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            background: #1e293b;
+
+            color: white;
+
+            padding: 20px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .back-btn {
+            text-decoration: none;
+
+            color: white;
+
+            background: #475569;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #334155;
+        }
+
+
+        /* CONTAINER */
+
+        .container {
+            width: 90%;
+
+            max-width: 600px;
+
+            margin: 50px auto;
+        }
+
+
+        /* FORM CARD */
+
+        .card {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 4px 12px rgba(
+                0,
+                0,
+                0,
+                0.08
+            );
+        }
+
+
+        .card h2 {
+            margin-top: 0;
+
+            margin-bottom: 25px;
+
+            color: #1e293b;
+        }
+
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #334155;
+        }
+
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        input:focus {
+            border-color: #2563eb;
+        }
+
+
+        /* PASSWORD NOTE */
+
+        .password-note {
+            margin-top: 6px;
+
+            font-size: 13px;
+
+            color: #64748b;
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .save-btn,
+        .cancel-btn {
+
+            border: none;
+
+            text-decoration: none;
+
+            padding: 12px 20px;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+
+        .save-btn {
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .cancel-btn {
+            background: #e2e8f0;
+
+            color: #334155;
+        }
+
+
+        .cancel-btn:hover {
+            background: #cbd5e1;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            Edit Teacher
+        </h1>
+
+
+        <a
+            href="/teachers/"
+            class="back-btn"
+        >
+            ← Back to Teachers
+        </a>
+
+    </div>
+
+
+    <!-- FORM -->
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>
+                Edit Teacher Details
+            </h2>
+
+
+            <form
+                method="POST"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="{{ teacher.username }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- FIRST NAME -->
+
+                <div class="form-group">
+
+                    <label for="first_name">
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="first_name"
+                        name="first_name"
+                        value="{{ teacher.first_name }}"
+                    >
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div class="form-group">
+
+                    <label for="last_name">
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="last_name"
+                        name="last_name"
+                        value="{{ teacher.last_name }}"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        New Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Leave blank to keep current password"
+                    >
+
+                    <div class="password-note">
+                        Enter a password only if you want to change it.
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="buttons">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        Save Changes
+                    </button>
+
+
+                    <a
+                        href="/teachers/"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

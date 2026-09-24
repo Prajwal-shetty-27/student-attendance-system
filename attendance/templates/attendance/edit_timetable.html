@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Timetable</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .error {
+            background: #ffe5e5;
+            color: #d00000;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #555;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Edit Timetable</h1>
+
+
+        <!-- =================================================
+             ERROR MESSAGE
+        ================================================== -->
+
+        {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             TIMETABLE FORM
+        ================================================== -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- CLASS -->
+
+            <label for="classroom">
+                Class
+            </label>
+
+            <select
+                name="classroom"
+                id="classroom"
+                required
+            >
+
+                {% for classroom in classrooms %}
+
+                    <option
+                        value="{{ classroom.id }}"
+                        {% if classroom.id == timetable.classroom.id %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ classroom.name }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <!-- TEACHER -->
+
+            <label for="teacher">
+                Teacher
+            </label>
+
+            <select
+                name="teacher"
+                id="teacher"
+                required
+            >
+
+                {% for teacher in teachers %}
+
+                    <option
+                        value="{{ teacher.id }}"
+                        {% if teacher.id == timetable.teacher.id %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ teacher.username }}
+
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <!-- SUBJECT -->
+
+            <label for="subject">
+                Subject
+            </label>
+
+            <input
+                type="text"
+                name="subject"
+                id="subject"
+                value="{{ timetable.subject }}"
+                placeholder="Enter subject"
+                required
+            >
+
+
+            <!-- DAY -->
+
+            <label for="day">
+                Day
+            </label>
+
+            <select
+                name="day"
+                id="day"
+                required
+            >
+
+                <option
+                    value="Monday"
+                    {% if timetable.day == "Monday" %}
+                        selected
+                    {% endif %}
+                >
+                    Monday
+                </option>
+
+                <option
+                    value="Tuesday"
+                    {% if timetable.day == "Tuesday" %}
+                        selected
+                    {% endif %}
+                >
+                    Tuesday
+                </option>
+
+                <option
+                    value="Wednesday"
+                    {% if timetable.day == "Wednesday" %}
+                        selected
+                    {% endif %}
+                >
+                    Wednesday
+                </option>
+
+                <option
+                    value="Thursday"
+                    {% if timetable.day == "Thursday" %}
+                        selected
+                    {% endif %}
+                >
+                    Thursday
+                </option>
+
+                <option
+                    value="Friday"
+                    {% if timetable.day == "Friday" %}
+                        selected
+                    {% endif %}
+                >
+                    Friday
+                </option>
+
+                <option
+                    value="Saturday"
+                    {% if timetable.day == "Saturday" %}
+                        selected
+                    {% endif %}
+                >
+                    Saturday
+                </option>
+
+            </select>
+
+
+            <!-- START TIME -->
+
+            <label for="start_time">
+                Start Time
+            </label>
+
+            <input
+                type="time"
+                name="start_time"
+                id="start_time"
+                value="{{ timetable.start_time|time:'H:i' }}"
+                required
+            >
+
+
+            <!-- END TIME -->
+
+            <label for="end_time">
+                End Time
+            </label>
+
+            <input
+                type="time"
+                name="end_time"
+                id="end_time"
+                value="{{ timetable.end_time|time:'H:i' }}"
+                required
+            >
+
+
+            <!-- SUBMIT -->
+
+            <button type="submit">
+                Update Timetable
+            </button>
+
+        </form>
+
+
+        <a
+            href="/timetables/"
+            class="back"
+        >
+            ← Back to Timetable
+        </a>
+
+    </div>
+
+</body>
+
+</html>

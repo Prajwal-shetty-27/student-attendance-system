@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Subject-wise Attendance
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f4f7fb;
+
+            color: #1f2937;
+        }
+
+
+        /* ==============================
+           LAYOUT
+        ============================== */
+
+        .layout {
+
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* ==============================
+           SIDEBAR
+        ============================== */
+
+        .sidebar {
+
+            width: 250px;
+
+            background: #172554;
+
+            color: white;
+
+            padding: 25px 18px;
+
+            position: fixed;
+
+            top: 0;
+
+            bottom: 0;
+
+            left: 0;
+        }
+
+
+        .logo {
+
+            font-size: 21px;
+
+            font-weight: 700;
+
+            padding: 10px 12px 30px;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            margin-bottom: 20px;
+        }
+
+
+        .logo span {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 400;
+
+            color: #bfdbfe;
+
+            margin-top: 5px;
+        }
+
+
+        .nav {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+
+        .nav a {
+
+            display: block;
+
+            padding: 12px 14px;
+
+            color: #dbeafe;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+
+        .nav a:hover {
+
+            background: #1e3a8a;
+
+            color: white;
+        }
+
+
+        .nav a.active {
+
+            background: #2563eb;
+
+            color: white;
+
+            font-weight: 600;
+        }
+
+
+        .logout-link {
+
+            margin-top: 20px;
+
+            border-top:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            padding-top: 20px;
+        }
+
+
+        .logout-link a {
+
+            color: #fecaca;
+        }
+
+
+        /* ==============================
+           MAIN
+        ============================== */
+
+        .main {
+
+            margin-left: 250px;
+
+            width: calc(100% - 250px);
+
+            padding: 30px;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .topbar {
+
+            background: white;
+
+            padding: 22px 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+
+            margin-bottom: 25px;
+        }
+
+
+        .topbar h1 {
+
+            font-size: 25px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .topbar p {
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           FILTER
+        ============================== */
+
+        .filter-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+
+            margin-bottom: 25px;
+        }
+
+
+        .filter-card h2 {
+
+            font-size: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .filter-form {
+
+            display: flex;
+
+            align-items: end;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+
+            min-width: 200px;
+        }
+
+
+        .form-group label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #475569;
+        }
+
+
+        .form-group select,
+        .form-group input {
+
+            padding: 10px 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            background: white;
+
+            outline: none;
+        }
+
+
+        .form-group select:focus,
+        .form-group input:focus {
+
+            border-color: #2563eb;
+        }
+
+
+        /* ==============================
+           BUTTONS
+        ============================== */
+
+        .btn {
+
+            border: none;
+
+            padding: 10px 18px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            display: inline-block;
+        }
+
+
+        .btn-primary {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        .btn-secondary {
+
+            background: #e2e8f0;
+
+            color: #334155;
+        }
+
+
+        .btn-secondary:hover {
+
+            background: #cbd5e1;
+        }
+
+
+        /* ==============================
+           SUBJECT SECTION
+        ============================== */
+
+        .subject-section {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+        }
+
+
+        .section-title {
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-title h2 {
+
+            font-size: 20px;
+
+            color: #172554;
+
+            margin-bottom: 5px;
+        }
+
+
+        .section-title p {
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        /* ==============================
+           SUBJECT CARDS
+        ============================== */
+
+        .subject-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .subject-card {
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            transition: 0.2s;
+        }
+
+
+        .subject-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 15px
+                rgba(15, 23, 42, 0.08);
+        }
+
+
+        .subject-name {
+
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: #172554;
+
+            margin-bottom: 18px;
+        }
+
+
+        .percentage {
+
+            font-size: 38px;
+
+            font-weight: 700;
+
+            color: #2563eb;
+
+            line-height: 1;
+        }
+
+
+        .percentage-label {
+
+            font-size: 12px;
+
+            color: #64748b;
+
+            margin-top: 7px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ==============================
+           PRESENT / ABSENT
+        ============================== */
+
+        .subject-details {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 10px;
+        }
+
+
+        .detail {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+        }
+
+
+        .present-detail {
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+
+        .absent-detail {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        .detail strong {
+
+            font-size: 15px;
+        }
+
+
+        /* ==============================
+           NO DATA
+        ============================== */
+
+        .no-data {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #64748b;
+        }
+
+
+        .no-data h3 {
+
+            color: #334155;
+
+            margin-bottom: 6px;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 1000px) {
+
+            .subject-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+
+                position: static;
+
+                width: 100%;
+
+                min-height: auto;
+            }
+
+
+            .layout {
+
+                display: block;
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+                width: 100%;
+
+                padding: 18px;
+            }
+
+
+            .filter-form {
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .form-group {
+
+                width: 100%;
+            }
+
+
+            .btn {
+
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .subject-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="layout">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            Student Attendance
+
+            <span>
+                Admin Panel
+            </span>
+
+        </div>
+
+
+        <nav class="nav">
+
+
+            <a href="{% url 'admin_dashboard' %}">
+                Dashboard
+            </a>
+
+
+            <a href="{% url 'students' %}">
+                Students
+            </a>
+
+
+            <a href="{% url 'classes' %}">
+                Class Management
+            </a>
+
+
+            <a href="{% url 'teachers' %}">
+                Teacher Management
+            </a>
+
+
+            <a href="{% url 'timetables' %}">
+                Timetable Management
+            </a>
+
+
+            <a
+                href="{% url 'subject_attendance' %}"
+                class="active"
+            >
+                Subject-wise Attendance
+            </a>
+
+
+            <div class="logout-link">
+
+                <a href="{% url 'logout' %}">
+                    Logout
+                </a>
+
+            </div>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main">
+
+
+        <!-- HEADER -->
+
+        <div class="topbar">
+
+            <h1>
+                Subject-wise Attendance
+            </h1>
+
+            <p>
+                View attendance percentage for each subject.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             FILTERS
+        ====================================== -->
+
+        <div class="filter-card">
+
+            <h2>
+                Filters
+            </h2>
+
+
+            <form
+                method="GET"
+                class="filter-form"
+            >
+
+
+                <!-- CLASS -->
+
+                <div class="form-group">
+
+                    <label for="class_id">
+                        Class
+                    </label>
+
+
+                    <select
+                        name="class_id"
+                        id="class_id"
+                    >
+
+                        <option value="">
+                            All Classes
+                        </option>
+
+
+                        {% for classroom in classrooms %}
+
+                            <option
+                                value="{{ classroom.id }}"
+
+                                {% if selected_class == classroom.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ classroom.name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label for="date">
+                        Date
+                    </label>
+
+
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value="{{ selected_date }}"
+                    >
+
+                </div>
+
+
+
+                <!-- APPLY -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    Apply Filters
+
+                </button>
+
+
+
+                <!-- CLEAR -->
+
+                <a
+                    href="{% url 'subject_attendance' %}"
+                    class="btn btn-secondary"
+                >
+
+                    Clear
+
+                </a>
+
+
+            </form>
+
+        </div>
+
+
+
+        <!-- =====================================
+             SUBJECT-WISE CARDS
+        ====================================== -->
+
+        <div class="subject-section">
+
+
+            <div class="section-title">
+
+                <h2>
+                    Subject-wise Attendance
+                </h2>
+
+                <p>
+                    Attendance percentage by subject
+                </p>
+
+            </div>
+
+
+            <div class="subject-grid">
+
+
+                {% for item in subject_summary %}
+
+
+                    <!-- SUBJECT CARD -->
+
+                    <div class="subject-card">
+
+
+                        <div class="subject-name">
+
+                            {{ item.subject }}
+
+                        </div>
+
+
+                        <div class="percentage">
+
+                            {{ item.percentage }}%
+
+                        </div>
+
+
+                        <div class="percentage-label">
+
+                            Attendance
+
+                        </div>
+
+
+                        <div class="subject-details">
+
+
+                            <div
+                                class="detail present-detail"
+                            >
+
+                                <span>
+                                    Present
+                                </span>
+
+                                <strong>
+                                    {{ item.present }}
+                                </strong>
+
+                            </div>
+
+
+                            <div
+                                class="detail absent-detail"
+                            >
+
+                                <span>
+                                    Absent
+                                </span>
+
+                                <strong>
+                                    {{ item.absent }}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% empty %}
+
+
+                    <div class="no-data">
+
+                        <h3>
+                            No Attendance Data
+                        </h3>
+
+                        <p>
+                            Attendance records are not
+                            available for the selected filters.
+                        </p>
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>
